@@ -1,0 +1,229 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard API Professionnel
+{% endblock %}
+
+{% block body %}
+<!-- Hero Section -->
+<section class="hero-section bg-gradient-primary text-white py-5">
+    <div class="container">
+        <div class="row align-items-center min-vh-50">
+            <div class="col-lg-8 col-md-10 mx-auto text-center">
+                <div class="hero-content">
+                    <h1 class="display-4 fw-bold mb-4 animate-fade-in">
+                        <i class="bi bi-speedometer2 me-3"></i>
+                        Dashboard API Professionnel
+                    </h1>
+                    <p class="lead mb-4 fs-5 animate-slide-up">
+                        Accédez facilement à toutes vos APIs et visualisez vos données en temps réel avec notre interface moderne et intuitive.
+                    </p>
+                    <div class="hero-stats row g-3 mt-5">
+                        <div class="col-6 col-md-3">
+                            <div class="stat-item">
+                                <div class="stat-number h3 mb-1">{{ apis|length }}</div>
+                                <div class="stat-label small">APIs Disponibles</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="stat-item">
+                                <div class="stat-number h3 mb-1">24/7</div>
+                                <div class="stat-label small">Disponibilité</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="stat-item">
+                                <div class="stat-number h3 mb-1">100%</div>
+                                <div class="stat-label small">Sécurisé</div>
+                            </div>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <div class="stat-item">
+                                <div class="stat-number h3 mb-1">Rapide</div>
+                                <div class="stat-label small">Performance</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- APIs Section -->
+<section class="apis-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-header text-center mb-5">
+                    <h2 class="h1 fw-bold mb-3">
+                        <i class="bi bi-cloud-arrow-down me-2"></i>
+                        Nos APIs Disponibles
+                    </h2>
+                    <p class="lead text-muted">
+                        Sélectionnez une API pour accéder aux données ou visualiser un aperçu en temps réel
+                    </p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row g-4" id="api-list">
+            {% for api in apis %}
+                <div class="col-12 col-md-6 col-lg-4">
+                    <div class="api-card card h-100 shadow-sm border-0 hover-lift">
+                        <div class="card-body d-flex flex-column">
+                            <div class="api-icon mb-3">
+                                <div class="icon-wrapper bg-primary bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center">
+                                    <i class="bi bi-gear-fill text-primary fs-4"></i>
+                                </div>
+                            </div>
+                            
+                            <h5 class="card-title fw-bold mb-3">{{ api.name }}</h5>
+                            
+                            <p class="card-text text-muted flex-grow-1">
+                                Accédez aux données de cette API et visualisez les informations en temps réel.
+                            </p>
+                            
+                            <div class="api-actions mt-auto">
+                                <div class="d-grid gap-2">
+                                    <a href="{{ api.url }}" target="_blank" class="btn btn-outline-primary btn-sm">
+                                        <i class="bi bi-box-arrow-up-right me-1"></i>
+                                        Accéder à l'API
+                                    </a>
+                                    <button class="btn btn-primary btn-sm load-data-btn" 
+                                            data-url="{{ api.url }}" 
+                                            data-name="{{ api.name|replace({' ': '_'}) }}">
+                                        <i class="bi bi-eye me-1"></i>
+                                        Voir les données
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Data Preview Section -->
+<section class="data-preview-section py-5 bg-light" id="data-preview" style="display: none;">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="data-preview-card card shadow border-0">
+                    <div class="card-header bg-white border-0 py-3">
+                        <div class="d-flex align-items-center justify-content-between">
+                            <h4 class="mb-0">
+                                <i class="bi bi-database me-2 text-primary"></i>
+                                <span id="api-name">Aperçu des données</span>
+                            </h4>
+                            <button class="btn btn-outline-secondary btn-sm" onclick="closeDataPreview()">
+                                <i class="bi bi-x-lg"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div id="api-data" class="api-data-content">
+                            <div class="text-center py-4">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="visually-hidden">Chargement...</span>
+                                </div>
+                                <p class="mt-2 text-muted">Chargement des données...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="section-header text-center mb-5">
+                    <h2 class="h1 fw-bold mb-3">Pourquoi nous choisir ?</h2>
+                    <p class="lead text-muted">Des fonctionnalités avancées pour une expérience optimale</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mb-3">
+                        <div class="icon-wrapper bg-success bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center">
+                            <i class="bi bi-shield-check text-success fs-3"></i>
+                        </div>
+                    </div>
+                    <h5 class="fw-bold mb-2">Sécurité Avancée</h5>
+                    <p class="text-muted small">Protection des données avec chiffrement de bout en bout</p>
+                </div>
+            </div>
+            
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mb-3">
+                        <div class="icon-wrapper bg-info bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center">
+                            <i class="bi bi-lightning-charge text-info fs-3"></i>
+                        </div>
+                    </div>
+                    <h5 class="fw-bold mb-2">Performance Rapide</h5>
+                    <p class="text-muted small">Temps de réponse optimisés pour une expérience fluide</p>
+                </div>
+            </div>
+            
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mb-3">
+                        <div class="icon-wrapper bg-warning bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center">
+                            <i class="bi bi-phone text-warning fs-3"></i>
+                        </div>
+                    </div>
+                    <h5 class="fw-bold mb-2">Responsive Design</h5>
+                    <p class="text-muted small">Interface adaptée à tous les appareils</p>
+                </div>
+            </div>
+            
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="feature-card text-center">
+                    <div class="feature-icon mb-3">
+                        <div class="icon-wrapper bg-danger bg-opacity-10 rounded-circle d-inline-flex align-items-center justify-content-center">
+                            <i class="bi bi-headset text-danger fs-3"></i>
+                        </div>
+                    </div>
+                    <h5 class="fw-bold mb-2">Support 24/7</h5>
+                    <p class="text-muted small">Assistance technique disponible à tout moment</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer bg-dark text-white py-4">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <p class="mb-0">&copy; 2024 Dashboard API. Tous droits réservés.</p>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <div class="social-links">
+                    <a href="#" class="text-white me-3"><i class="bi bi-github"></i></a>
+                    <a href="#" class="text-white me-3"><i class="bi bi-linkedin"></i></a>
+                    <a href="#" class="text-white"><i class="bi bi-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script>
+function closeDataPreview() {
+    document.getElementById('data-preview').style.display = 'none';
+}
+</script>
+{% endblock %}
+

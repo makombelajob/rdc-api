@@ -1,0 +1,53 @@
+// Variables
+$primary-color: #2980b9;
+$heading-color: #2c3e50;
+$button-radius: 3px;
+$button-padding: 3px 8px;
+
+// Styles généraux
+h1,
+h2 {
+    color: $heading-color;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    margin: 10px 0;
+}
+
+a {
+    text-decoration: none;
+    color: $primary-color;
+    font-weight: bold;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+button {
+    margin-left: 10px;
+    padding: $button-padding;
+    border: 1px solid $primary-color;
+    background-color: #fff;
+    color: $primary-color;
+    cursor: pointer;
+    border-radius: $button-radius;
+
+    &:hover {
+        background-color: $primary-color;
+        color: #fff;
+    }
+}
+
+#api-data {
+    margin-top: 30px;
+
+    ul {
+        padding-left: 20px;
+    }
+}

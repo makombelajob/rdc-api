@@ -1,0 +1,8 @@
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/symfony_test/AI-test/safe-congo/
+    - /bn/cp -R * $DEPLOYPATH
+  exclude:
+    - .git
+    - /mysql
+    - .idea
